@@ -43,8 +43,8 @@ export class EnhancedQlooClient {
     }
 
     // Set configuration based on environment or default to Hackathon
-    this.config = config || DEFAULT_HACKATHON_CONFIG;
-    
+    this.config = config ?? DEFAULT_HACKATHON_CONFIG;
+
     // Update bias detector with the same config
     EnhancedBiasDetector.setConfig(this.config);
 
@@ -55,27 +55,27 @@ export class EnhancedQlooClient {
         'Content-Type': 'application/json',
         'User-Agent': 'CulturalTruth-MCP/2.0.0'
       },
-      timeout: parseInt(process.env.API_TIMEOUT || '10000'),
+      timeout: parseInt(process.env.API_TIMEOUT ?? '10000'),
       maxRedirects: 3
     });
 
     // Configure rate limiter from environment
-    const rateLimit = parseInt(process.env.RATE_LIMIT_PER_MINUTE || '50');
+    const rateLimit = parseInt(process.env.RATE_LIMIT_PER_MINUTE ?? '50');
     this.rateLimiter = new SimpleRateLimiter({ tokensPerInterval: rateLimit, interval: 'minute' });
-    
+
     this.circuitBreaker = new CircuitBreaker(
-      parseInt(process.env.CIRCUIT_BREAKER_THRESHOLD || '5'),
-      parseInt(process.env.CIRCUIT_BREAKER_TIMEOUT || '30000')
+      parseInt(process.env.CIRCUIT_BREAKER_THRESHOLD ?? '5'),
+      parseInt(process.env.CIRCUIT_BREAKER_TIMEOUT ?? '30000')
     );
-    
+
     this.entityCache = new LRUCache<QlooEntity[]>(
-      parseInt(process.env.MAX_CACHE_SIZE || '1000'),
-      parseInt(process.env.CACHE_TTL_MS || '300000')
+      parseInt(process.env.MAX_CACHE_SIZE ?? '1000'),
+      parseInt(process.env.CACHE_TTL_MS ?? '300000')
     );
-    
+
     this.demographicCache = new LRUCache<QlooResponse>(
-      parseInt(process.env.MAX_CACHE_SIZE || '1000'),
-      parseInt(process.env.CACHE_TTL_MS || '300000')
+      parseInt(process.env.MAX_CACHE_SIZE ?? '1000'),
+      parseInt(process.env.CACHE_TTL_MS ?? '300000')
     );
 
     this.setupAxiosInterceptors();
@@ -131,7 +131,7 @@ export class EnhancedQlooClient {
   private sanitizeOutput(entity: QlooEntity): QlooEntity {
     // Only return safe, non-PII properties
     const sanitized: QlooEntity = {
-      name: entity.name || 'Unknown',
+      name: entity.name ?? 'Unknown',
       entity_id: entity.entity_id,
       type: entity.type,
       subtype: entity.subtype,
@@ -179,7 +179,7 @@ export class EnhancedQlooClient {
 
       if (entities.length > 0) {
         const cacheKey = entities.sort().join('|');
-        let cachedResults = this.entityCache.get(cacheKey);
+        const cachedResults = this.entityCache.get(cacheKey);
 
         if (cachedResults) {
           cacheHits++;
@@ -193,7 +193,7 @@ export class EnhancedQlooClient {
 
           const results = await Promise.allSettled(entityPromises);
           const successfulResults = results
-            .filter((result): result is PromiseFulfilledResult<QlooResponse> => 
+            .filter((result): result is PromiseFulfilledResult<QlooResponse> =>
               result.status === 'fulfilled' && result.value.success)
             .flatMap(result => result.value.results.entities);
 
@@ -238,7 +238,7 @@ export class EnhancedQlooClient {
 
     } catch (error) {
       console.error('Error in analyzeContent:', error);
-      
+
       // Create error audit trail
       const auditTrail: AuditTrail = {
         timestamp: new Date().toISOString(),
@@ -267,7 +267,7 @@ export class EnhancedQlooClient {
     try {
       const promises = demographics.map(async (demographic) => {
         const cacheKey = `demo_${demographic}_${entities.map(e => e.entity_id).join(',')}`;
-        let cached = this.demographicCache.get(cacheKey);
+        const cached = this.demographicCache.get(cacheKey);
 
         if (cached) {
           this.cacheHitCount++;
@@ -286,7 +286,7 @@ export class EnhancedQlooClient {
       });
 
       const results = await Promise.allSettled(promises);
-      
+
       results.forEach((result) => {
         if (result.status === 'fulfilled' && result.value.response.success) {
           const { demographic, response } = result.value;
@@ -308,7 +308,7 @@ export class EnhancedQlooClient {
 
   private generateMitigationActions(biasPatterns: BiasPattern[]): string[] {
     const actions: string[] = [];
-    
+
     if (biasPatterns.length === 0) {
       actions.push('✅ No bias detected - content appears compliant');
       return actions;
@@ -362,7 +362,7 @@ export class EnhancedQlooClient {
 
   private addAuditTrail(trail: AuditTrail): void {
     this.auditTrails.push(trail);
-    
+
     // Keep only recent audit trails in memory (configurable retention)
     const maxTrails = parseInt(process.env.MAX_AUDIT_TRAILS || '1000');
     if (this.auditTrails.length > maxTrails) {
@@ -543,7 +543,7 @@ export class EnhancedQlooClient {
 
   generateComplianceReport(daysBack = 7): ComplianceReport {
     const cutoffDate = new Date(Date.now() - (daysBack * 24 * 60 * 60 * 1000));
-    const recentTrails = this.auditTrails.filter(trail => 
+    const recentTrails = this.auditTrails.filter(trail =>
       new Date(trail.timestamp) > cutoffDate
     );
 
@@ -552,7 +552,7 @@ export class EnhancedQlooClient {
       return acc;
     }, {} as Record<string, number>);
 
-    const avgScore = recentTrails.length > 0 
+    const avgScore = recentTrails.length > 0
       ? recentTrails.reduce((sum, trail) => sum + trail.complianceScore.overallScore, 0) / recentTrails.length
       : 0;
 
@@ -606,7 +606,7 @@ export class EnhancedQlooClient {
   private calculateAverageSeverity(severities: string[]): string {
     const severityScores = { low: 1, medium: 2, high: 3, critical: 4 };
     const avgScore = severities.reduce((sum, s) => sum + severityScores[s as keyof typeof severityScores], 0) / severities.length;
-    
+
     if (avgScore >= 3.5) return 'critical';
     if (avgScore >= 2.5) return 'high';
     if (avgScore >= 1.5) return 'medium';
@@ -615,12 +615,12 @@ export class EnhancedQlooClient {
 
   private generateTrends(trails: AuditTrail[], days: number): Array<{ date: string; averageScore: number; highRiskCount: number }> {
     const trends: Array<{ date: string; averageScore: number; highRiskCount: number }> = [];
-    
+
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date(Date.now() - (i * 24 * 60 * 60 * 1000));
       const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
       const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
-      
+
       const dayTrails = trails.filter(t => {
         const trailDate = new Date(t.timestamp);
         return trailDate >= dayStart && trailDate < dayEnd;
@@ -630,7 +630,7 @@ export class EnhancedQlooClient {
         ? dayTrails.reduce((sum, t) => sum + t.complianceScore.overallScore, 0) / dayTrails.length
         : 0;
 
-      const highRiskCount = dayTrails.filter(t => 
+      const highRiskCount = dayTrails.filter(t =>
         t.complianceScore.riskLevel === 'high' || t.complianceScore.riskLevel === 'critical'
       ).length;
 
@@ -722,7 +722,7 @@ export class EnhancedQlooClient {
 
       const groupA = this.analyzeEntityGroup(groupAResults.results.entities);
       const groupB = this.analyzeEntityGroup(groupBResults.results.entities);
-      
+
       const deltaScores = this.calculateDeltaScores(groupA, groupB);
 
       return {
@@ -745,8 +745,8 @@ export class EnhancedQlooClient {
   private async getEntitiesByIds(entityIds: string[]): Promise<QlooResponse> {
     return this.circuitBreaker.execute(async () => {
       try {
-        const response = await this.api.get('/entities', { 
-          params: { ids: entityIds.join(',') } 
+        const response = await this.api.get('/entities', {
+          params: { ids: entityIds.join(',') }
         });
         return {
           success: true,
@@ -765,15 +765,15 @@ export class EnhancedQlooClient {
   }
 
   private analyzeEntityGroup(entities: QlooEntity[]) {
-    const avgPopularity = entities.reduce((sum, e) => 
+    const avgPopularity = entities.reduce((sum, e) =>
       sum + (e.properties?.popularity || 0), 0) / entities.length;
-    
+
     const allTags = entities.flatMap(e => e.properties?.tags || []);
     const tagCounts = allTags.reduce((acc, tag) => {
       acc[tag.name] = (acc[tag.name] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
-    
+
     const commonTags = Object.entries(tagCounts)
       .filter(([, count]) => count >= Math.ceil(entities.length * 0.3))
       .map(([name]) => name)
@@ -788,15 +788,15 @@ export class EnhancedQlooClient {
 
   private calculateDeltaScores(groupA: any, groupB: any) {
     const popularityDelta = groupA.avgPopularity - groupB.avgPopularity;
-    
-    const commonTagsSet = new Set(groupA.commonTags.filter((tag: string) => 
+
+    const commonTagsSet = new Set(groupA.commonTags.filter((tag: string) =>
       groupB.commonTags.includes(tag)));
-    const overlapPercentage = (commonTagsSet.size / 
+    const overlapPercentage = (commonTagsSet.size /
       Math.max(groupA.commonTags.length, groupB.commonTags.length)) * 100;
-    
-    const culturalAffinityScore = Math.min(100, overlapPercentage + 
+
+    const culturalAffinityScore = Math.min(100, overlapPercentage +
       (50 * (1 - Math.abs(popularityDelta))));
-    
+
     const recommendations = [];
     if (Math.abs(popularityDelta) > 0.3) {
       recommendations.push(`High popularity gap detected (${(popularityDelta * 100).toFixed(1)}%)`);
@@ -827,7 +827,7 @@ export class EnhancedQlooClient {
         const queryParams: any = {
           type: params.category
         };
-        
+
         if (params.demographic) {
           queryParams['signal.demographics.age'] = params.demographic;
         }
@@ -862,7 +862,7 @@ export class EnhancedQlooClient {
     const batchSize = 5;
     for (let i = 0; i < requests.length; i += batchSize) {
       const batch = requests.slice(i, i + batchSize);
-      
+
       const batchPromises = batch.map(async (request, batchIndex) => {
         const actualIndex = i + batchIndex;
         try {
@@ -870,7 +870,7 @@ export class EnhancedQlooClient {
             request.content,
             request.user_id
           );
-          
+
           totalComplianceScore += analysis.complianceScore.overallScore;
           if (analysis.complianceScore.riskLevel === 'critical') {
             criticalIssuesCount++;
@@ -902,7 +902,7 @@ export class EnhancedQlooClient {
 
       const batchResults = await Promise.all(batchPromises);
       results.push(...batchResults);
-      
+
       // Add delay between batches to respect rate limits
       if (i + batchSize < requests.length) {
         await new Promise(resolve => setTimeout(resolve, 1000));

@@ -17,7 +17,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import axios, { AxiosInstance, AxiosError } from "axios";
 import * as dotenv from "dotenv";
-import { createHash, createHmac } from "crypto";
+import { createHash } from "crypto";
 // Simple rate limiter implementation
 class SimpleRateLimiter {
   private tokens: number;
@@ -43,10 +43,10 @@ class SimpleRateLimiter {
 
     if (this.tokens >= count) {
       this.tokens -= count;
-      return Promise.resolve();
+      return;
     }
     const waitTime = this.interval - timePassed;
-    return new Promise((resolve) => setTimeout(resolve, waitTime));
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
   }
 }
 
@@ -287,10 +287,6 @@ interface AnalyzeContentBiasArgs {
   user_id?: string;
 }
 
-interface GetComplianceReportArgs {
-  days?: number;
-  user_id?: string;
-}
 
 interface QlooRecommendArgs {
   entity_type: string;
@@ -323,25 +319,8 @@ interface QlooTrendingArgs {
   cultural_relevance_threshold?: number;
 }
 
-interface GetCulturalTrendsArgs {
-  content: string;
-  demographics?: string;
-  time_period?: string;
-  limit?: number;
-}
 
-interface BatchCulturalAuditArgs {
-  requests: BatchAuditRequest[];
-}
 
-interface AddRealtimeSignalArgs {
-  entity_id: string;
-  user_id?: string;
-  interaction: string;
-  value?: number;
-  location?: string;
-  metadata?: Record<string, any>;
-}
 
 // =============================================================================
 // ENHANCED BIAS DETECTOR
@@ -593,7 +572,7 @@ class EnhancedBiasDetector {
 
     // Apply multiple entity extraction patterns
     for (const pattern of this.ENTITY_PATTERNS) {
-      const matches = sanitizedText.match(pattern) || [];
+      const matches = sanitizedText.match(pattern) ?? [];
       matches.forEach((match) => {
         const cleaned = match.replace(/["']/g, "").trim();
         if (
@@ -637,7 +616,7 @@ class EnhancedBiasDetector {
     const sanitizedText = this.sanitizeInput(text);
     const currentDetectionLevel = this.config.biasDetectionLevel;
 
-    for (const [key, pattern] of Object.entries(this.BIAS_PATTERNS)) {
+    for (const [, pattern] of Object.entries(this.BIAS_PATTERNS)) {
       // Skip patterns that don't match current detection level
       if (!pattern.detectionLevel.includes(currentDetectionLevel)) {
         continue;
@@ -666,6 +645,7 @@ class EnhancedBiasDetector {
           adjustedConfidence *= 1.1;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { detectionLevel, ...patternWithoutDetectionLevel } = pattern;
         detectedBias.push({
           ...patternWithoutDetectionLevel,
@@ -981,7 +961,7 @@ class EnhancedQlooClient {
     }
 
     // Set configuration based on environment or default to Hackathon
-    this.config = config || DEFAULT_HACKATHON_CONFIG;
+    this.config = config ?? DEFAULT_HACKATHON_CONFIG;
 
     // Update bias detector with the same config
     EnhancedBiasDetector.setConfig(this.config);
@@ -993,30 +973,30 @@ class EnhancedQlooClient {
         "Content-Type": "application/json",
         "User-Agent": "CulturalTruth-MCP/2.0.0",
       },
-      timeout: parseInt(process.env.API_TIMEOUT || "10000"),
+      timeout: parseInt(process.env.API_TIMEOUT ?? "10000"),
       maxRedirects: 3,
     });
 
     // Configure rate limiter from environment
-    const rateLimit = parseInt(process.env.RATE_LIMIT_PER_MINUTE || "50");
+    const rateLimit = parseInt(process.env.RATE_LIMIT_PER_MINUTE ?? "50");
     this.rateLimiter = new SimpleRateLimiter({
       tokensPerInterval: rateLimit,
       interval: "minute",
     });
 
     this.circuitBreaker = new CircuitBreaker(
-      parseInt(process.env.CIRCUIT_BREAKER_THRESHOLD || "5"),
-      parseInt(process.env.CIRCUIT_BREAKER_TIMEOUT || "30000"),
+      parseInt(process.env.CIRCUIT_BREAKER_THRESHOLD ?? "5"),
+      parseInt(process.env.CIRCUIT_BREAKER_TIMEOUT ?? "30000"),
     );
 
     this.entityCache = new LRUCache<QlooEntity[]>(
-      parseInt(process.env.MAX_CACHE_SIZE || "1000"),
-      parseInt(process.env.CACHE_TTL_MS || "300000"),
+      parseInt(process.env.MAX_CACHE_SIZE ?? "1000"),
+      parseInt(process.env.CACHE_TTL_MS ?? "300000"),
     );
 
     this.demographicCache = new LRUCache<QlooResponse>(
-      parseInt(process.env.MAX_CACHE_SIZE || "1000"),
-      parseInt(process.env.CACHE_TTL_MS || "300000"),
+      parseInt(process.env.MAX_CACHE_SIZE ?? "1000"),
+      parseInt(process.env.CACHE_TTL_MS ?? "300000"),
     );
 
     this.setupAxiosInterceptors();
@@ -1365,7 +1345,7 @@ class EnhancedQlooClient {
     this.auditTrails.push(trail);
 
     // Keep only recent audit trails in memory (configurable retention)
-    const maxTrails = parseInt(process.env.MAX_AUDIT_TRAILS || "1000");
+    const maxTrails = parseInt(process.env.MAX_AUDIT_TRAILS ?? "1000");
     if (this.auditTrails.length > maxTrails) {
       this.auditTrails = this.auditTrails.slice(-maxTrails);
     }
@@ -3425,10 +3405,10 @@ server.setRequestHandler(
           }
 
           response += `\n## Configuration\n`;
-          response += `• **Rate Limit:** ${process.env.RATE_LIMIT_PER_MINUTE || "50"} req/min\n`;
-          response += `• **Cache TTL:** ${parseInt(process.env.CACHE_TTL_MS || "300000") / 1000}s\n`;
-          response += `• **Max Cache Size:** ${process.env.MAX_CACHE_SIZE || "1000"} items\n`;
-          response += `• **Circuit Breaker Threshold:** ${process.env.CIRCUIT_BREAKER_THRESHOLD || "5"} failures\n`;
+          response += `• **Rate Limit:** ${process.env.RATE_LIMIT_PER_MINUTE ?? "50"} req/min\n`;
+          response += `• **Cache TTL:** ${parseInt(process.env.CACHE_TTL_MS ?? "300000") / 1000}s\n`;
+          response += `• **Max Cache Size:** ${process.env.MAX_CACHE_SIZE ?? "1000"} items\n`;
+          response += `• **Circuit Breaker Threshold:** ${process.env.CIRCUIT_BREAKER_THRESHOLD ?? "5"} failures\n`;
 
           return {
             content: [{ type: "text", text: response } as TextContent],

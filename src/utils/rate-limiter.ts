@@ -27,9 +27,9 @@ export class SimpleRateLimiter {
 
     if (this.tokens >= count) {
       this.tokens -= count;
-      return Promise.resolve();
+      return;
     }
     const waitTime = this.interval - timePassed;
-    return new Promise((resolve) => setTimeout(resolve, waitTime));
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
   }
 }

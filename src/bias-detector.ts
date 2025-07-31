@@ -26,7 +26,7 @@ export class EnhancedBiasDetector {
       regulation_risk: ['EU_AI_ACT', 'EEOC', 'TITLE_VII'],
       detectionLevel: ['strict', 'moderate']
     },
-    
+
     'gendered_roles': {
       type: 'gender_exclusive',
       pattern: '\\b(?:rockstar|ninja|guru|wizard)\\s+(?:developer|engineer|programmer)\\b',
@@ -138,7 +138,7 @@ export class EnhancedBiasDetector {
       const matches = sanitizedText.match(pattern) || [];
       matches.forEach(match => {
         const cleaned = match.replace(/["']/g, '').trim();
-        if (cleaned.length >= 3 && cleaned.length <= 50 && 
+        if (cleaned.length >= 3 && cleaned.length <= 50 &&
             !this.ENTITY_STOPLIST.has(cleaned.toUpperCase()) &&
             !this.isCommonWord(cleaned)) {
           entities.add(cleaned);
@@ -163,7 +163,7 @@ export class EnhancedBiasDetector {
     const sanitizedText = this.sanitizeInput(text);
     const currentDetectionLevel = this.config.biasDetectionLevel;
 
-    for (const [key, pattern] of Object.entries(this.BIAS_PATTERNS)) {
+    for (const [, pattern] of Object.entries(this.BIAS_PATTERNS)) {
       // Skip patterns that don't match current detection level
       if (!pattern.detectionLevel.includes(currentDetectionLevel)) {
         continue;
@@ -171,11 +171,11 @@ export class EnhancedBiasDetector {
 
       const regex = new RegExp(pattern.pattern, 'gi');
       const matches = sanitizedText.match(regex);
-      
+
       if (matches) {
         // Calculate confidence based on context and frequency
         const confidence = this.calculateConfidence(matches, sanitizedText, pattern.type);
-        
+
         // Apply environment-specific confidence adjustments
         let adjustedConfidence = confidence;
         if (this.config.mode === 'Hackathon') {
@@ -188,6 +188,7 @@ export class EnhancedBiasDetector {
           adjustedConfidence *= 1.1;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { detectionLevel, ...patternWithoutDetectionLevel } = pattern;
         detectedBias.push({
           ...patternWithoutDetectionLevel,
@@ -216,7 +217,7 @@ export class EnhancedBiasDetector {
     };
 
     const relevantWords = contextWords[biasType as keyof typeof contextWords] || [];
-    const contextMatches = relevantWords.filter(word => 
+    const contextMatches = relevantWords.filter(word =>
       new RegExp(`\\b${word}\\b`, 'i').test(text)
     ).length;
 
@@ -232,12 +233,12 @@ export class EnhancedBiasDetector {
     // Environment-specific severity multipliers
     const severityMultiplier = this.config.mode === 'Hackathon' ? {
       'low': 2,
-      'medium': 8, 
+      'medium': 8,
       'high': 20,
       'critical': 35
     } : {
       'low': 3,
-      'medium': 10, 
+      'medium': 10,
       'high': 25,
       'critical': 45
     };
@@ -246,12 +247,12 @@ export class EnhancedBiasDetector {
       // Weight deductions by confidence
       const weightedDeduction = severityMultiplier[bias.severity] * bias.confidence;
       totalDeductions += weightedDeduction;
-      
+
       bias.regulation_risk.forEach(reg => regulations.add(reg));
     }
 
     const baseScore = Math.max(0, 100 - totalDeductions);
-    
+
     // Calculate regulation-specific scores with environment-specific penalties
     const euAiActRegulations = ['EU_AI_ACT'];
     const section508Regulations = ['SECTION_508', 'ADA', 'REHABILITATION_ACT', 'EU_ACCESSIBILITY_ACT'];
@@ -272,7 +273,7 @@ export class EnhancedBiasDetector {
     const gdpr = this.hasRegulationRisk(regulations, gdprRegulations) ? Math.max(0, baseScore - regulationPenalty.gdpr) : baseScore;
 
     const overallScore = Math.min(euAiAct, section508, gdpr);
-    
+
     // Environment-specific risk level thresholds
     const thresholds = this.config.complianceThresholds;
     let riskLevel: 'low' | 'medium' | 'high' | 'critical' = 'low';
@@ -282,7 +283,7 @@ export class EnhancedBiasDetector {
 
     return {
       euAiAct,
-      section508, 
+      section508,
       gdpr,
       riskLevel,
       overallScore,

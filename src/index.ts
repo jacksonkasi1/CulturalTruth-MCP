@@ -2,7 +2,7 @@
 
 /**
  * CulturalTruth MCP Server - Main Entry Point
- * 
+ *
  * This file serves as the main entry point for the CulturalTruth MCP server.
  * It imports and starts the MCP server from the mcp/server.ts file.
  */
