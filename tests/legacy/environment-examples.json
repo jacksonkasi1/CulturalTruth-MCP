@@ -1,0 +1,119 @@
+{
+  "hackathon_configuration": {
+    "description": "Optimized for hackathons, demos, and rapid prototyping",
+    "mcp_tool_call": {
+      "name": "configure_environment",
+      "arguments": {
+        "mode": "Hackathon",
+        "enableFullPotential": false,
+        "biasDetectionLevel": "lenient",
+        "enabledFeatures": {
+          "demographicAnalysis": false,
+          "culturalTrends": true,
+          "geospatialInsights": false,
+          "batchProcessing": true,
+          "realtimeSignals": true
+        }
+      }
+    },
+    "environment_variables": {
+      "QLOO_API_KEY": "your_hackathon_api_key",
+      "CULTURAL_TRUTH_MODE": "Hackathon"
+    },
+    "characteristics": {
+      "api_endpoint": "https://hackathon.api.qloo.com",
+      "bias_detection": "More lenient - focuses on critical issues only",
+      "compliance_thresholds": {
+        "critical": "< 20%",
+        "high": "< 40%", 
+        "medium": "< 60%"
+      },
+      "regulatory_penalties": "Reduced for demo purposes",
+      "pattern_detection": "Essential patterns only (age, accessibility, location bias)"
+    }
+  },
+
+  "production_configuration": {
+    "description": "Full production validation with strict compliance monitoring",
+    "mcp_tool_call": {
+      "name": "configure_environment", 
+      "arguments": {
+        "mode": "Production",
+        "enableFullPotential": true,
+        "biasDetectionLevel": "strict",
+        "enabledFeatures": {
+          "demographicAnalysis": true,
+          "culturalTrends": true,
+          "geospatialInsights": true,
+          "batchProcessing": true,
+          "realtimeSignals": true
+        }
+      }
+    },
+    "environment_variables": {
+      "QLOO_API_KEY": "your_production_api_key",
+      "CULTURAL_TRUTH_MODE": "Production"
+    },
+    "characteristics": {
+      "api_endpoint": "https://api.qloo.com",
+      "bias_detection": "Strict - detects all bias patterns including subtle ones",
+      "compliance_thresholds": {
+        "critical": "< 10%",
+        "high": "< 25%",
+        "medium": "< 50%"
+      },
+      "regulatory_penalties": "Full production weights applied",
+      "pattern_detection": "All patterns active (including gendered roles, education proxies, cultural assumptions)"
+    }
+  },
+
+  "custom_configuration_example": {
+    "description": "Custom configuration mixing features from both modes",
+    "mcp_tool_call": {
+      "name": "configure_environment",
+      "arguments": {
+        "mode": "Production",
+        "enableFullPotential": false,
+        "biasDetectionLevel": "moderate",
+        "enabledFeatures": {
+          "demographicAnalysis": true,
+          "culturalTrends": true,
+          "geospatialInsights": false,
+          "batchProcessing": true,
+          "realtimeSignals": false
+        }
+      }
+    },
+    "use_case": "Enterprise deployment with balanced sensitivity"
+  },
+
+  "usage_examples": {
+    "check_current_environment": {
+      "tool": "get_environment_info",
+      "arguments": {}
+    },
+    "switch_to_hackathon": {
+      "tool": "configure_environment",
+      "arguments": {
+        "mode": "Hackathon"
+      }
+    },
+    "switch_to_production": {
+      "tool": "configure_environment", 
+      "arguments": {
+        "mode": "Production"
+      }
+    },
+    "enable_full_features_in_hackathon": {
+      "tool": "configure_environment",
+      "arguments": {
+        "mode": "Hackathon",
+        "enableFullPotential": true,
+        "enabledFeatures": {
+          "demographicAnalysis": true,
+          "geospatialInsights": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1315 @@
+========================
+CODE SNIPPETS
+========================
+TITLE: Qloo API Endpoint Reference Overview
+DESCRIPTION: This comprehensive reference provides an organized list of all available Qloo API endpoints, categorized by functionality. It includes quick start guides, insights API endpoints, supporting APIs, entity data APIs, and legacy API endpoints, serving as a directory for developers to navigate the API and find specific functionalities.
+
+SOURCE: https://docs.qloo.com/reference/use-cases
+
+LANGUAGE: APIDOC
+CODE:
+```
+API Reference:
+  API Quick Start:
+    - API Overview
+    - API Onboarding and Authentication
+    - API System Status
+  Insights API:
+    - Insights API Deep Dive
+    - Parameter Reference
+      - Entity Type Parameter Guide
+    - Ways to Use Our API
+      - Basic Insights
+      - Demographic Insights
+      - Heatmaps
+      - Location Insights
+      - Taste Analysis
+  Supporting APIs:
+    - Analysis (GET)
+    - Analysis Compare (GET)
+    - Find Audiences (GET)
+    - Get Audience Types (GET)
+    - Tags Search (GET)
+    - Tag Types (GET)
+  Entity Data APIs:
+    - Entity Search (GET)
+    - Entity Search by ID (GET)
+    - Trending Entities (GET)
+    - Week-Over-Week Trending Data (GET)
+  General API Reference:
+    - Glossary
+    - Parameter Reference
+    - Entity Type Parameter Guide
+  LEGACY API:
+    info:
+      - API information (GET)
+    geo:
+      - Get geospatial insights (GET)
+      - Get geospatial parameter options (GET)
+      - Get heatmap data (GET)
+    recommendations:
+      - Get recommendations (GET)
+      - Get recommendation parameter options (GET)
+```
+
+----------------------------------------
+
+TITLE: Get Recommendation Parameter Options API Endpoint
+DESCRIPTION: Defines the HTTP GET endpoint to retrieve a list of genres available for recommendations.
+
+SOURCE: https://docs.qloo.com/reference/get-recommendations-describe
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/recommendations/describe
+```
+
+----------------------------------------
+
+TITLE: Podcast API Parameters
+DESCRIPTION: Lists the available parameters for querying podcast data, including required and optional fields for filtering, biasing, and signal processing.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Podcast Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.parents.types: Optional
+  filter.popularity.max: Optional
+  filter.popularity.min: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.gender: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Get Recommendations API Endpoint
+DESCRIPTION: This snippet defines the HTTP GET endpoint for retrieving recommendations from the Qloo API. It is designed to return recommendations based on a provided sample array.
+
+SOURCE: https://docs.qloo.com/reference/get-recommendations
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/recommendations
+```
+
+----------------------------------------
+
+TITLE: Qloo Recommendations API Endpoint
+DESCRIPTION: This snippet defines the HTTP GET endpoint used to retrieve recommendations from the Qloo API. It specifies the base URL and the path for the recommendations service.
+
+SOURCE: https://docs.qloo.com/reference/recommendations
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/recommendations
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Destination Entity
+DESCRIPTION: This section provides a comprehensive list of parameters applicable to API requests for 'Destination' entities. It details each parameter's name and whether it is a required or optional field.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Destination Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.geocode.name: Optional
+  filter.geocode.admin1_region: Optional
+  filter.geocode.admin2_region: Optional
+  filter.geocode.country_code: Optional
+  filter.location: Optional
+  filter.location.radius: Optional
+  filter.location.geohash: Optional
+  filter.exclude.location.geohash: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Required
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Basic Insights API Response Example
+DESCRIPTION: This JSON object illustrates a typical successful response from the API, containing a 'success' flag and 'results' with an array of 'entities'. Each entity, such as a movie, includes detailed properties like release information, descriptions, images, and various tags.
+
+SOURCE: https://docs.qloo.com/reference/api-onboarding
+
+LANGUAGE: json
+CODE:
+```
+{
+    "success": true,
+    "results": {
+        "entities": [
+            {
+                "name": "Django Unchained",
+                "entity_id": "369D1544-628B-4C21-95A0-1488117A308A",
+                "type": "urn:entity",
+                "subtype": "urn:entity:movie",
+                "properties": {
+                    "release_year": 2012,
+                    "release_date": "2012-12-25",
+                    "description": "With the help of a German bounty-hunter, a freed slave sets out to rescue his wife from a brutal plantation owner in Mississippi.",
+                    "content_rating": "R",
+                    "duration": 165,
+                    "image": {
+                        "url": "https://staging.images.qloo.com/i/369D1544-628B-4C21-95A0-1488117A308A-420x-outside.jpg"
+                    },
+                    "akas": [
+                        {
+                            "value": "Django Unchained",
+                            "languages": [
+                                "fy"
+                            ]
+                        },
+                        {
+                            "value": "被解放的姜戈",
+                            "languages": [
+                                "zh"
+                            ]
+                        },
+                        {
+                            "value": "Джанго освобождённый",
+                            "languages": [
+                                "ru"
+                            ]
+                        }
+                    ],
+                    "filming_location": "Evergreen Plantation - 4677 Highway 18, Edgard, Louisiana, USA",
+                    "production_companies": [
+                        "The Weinstein Company",
+                        "Columbia Pictures"
+                    ],
+                    "release_country": [
+                        "United States"
+                    ],
+                    "short_descriptions": [
+                        {
+                            "value": "filme de 2012 realizado por Quentin Tarantino",
+                            "languages": [
+                                "pt"
+                            ]
+                        },
+                        {
+                            "value": "அமெரிக்க மேற்கத்திய திரைப்படம்",
+                            "languages": [
+                                "ta"
+                            ]
+                        }
+                    ],
+                    "popularity": 0.9998529346882951,
+                    "tags": [
+                    {
+                        "id": "urn:tag:keyword:media:ex_slave",
+                        "name": "Ex Slave",
+                        "type": "urn:tag:keyword:media"
+                    },
+                    {
+                        "id": "urn:tag:streaming_service:media:universcine",
+                        "name": "Universcine",
+                        "type": "urn:tag:streaming_service:media"
+                    },
+                    {
+                        "id": "urn:tag:keyword:media:historical_fiction",
+                        "name": "Historical Fiction",
+                        "type": "urn:tag:keyword:media"
+                    },
+                    {
+                        "id": "urn:tag:streaming_service:media:paramount_roku_premium_channel",
+                        "name": "Paramount+ Roku Premium Channel",
+                        "type": "urn:tag:streaming_service:media"
+                    },
+                    {
+                        "id": "urn:tag:streaming_service:media:apple_tv",
+                        "name": "Apple Tv",
+                        "type": "urn:tag:streaming_service:media"
+                    },
+                    {
+                        "id": "urn:tag:streaming_service:media:magentatv",
+                        "name": "Magentatv",
+                        "type": "urn:tag:streaming_service:media"
+                    },
+                    {
+                        "id": "urn:tag:keyword:media:pre_civil_war",
+                        "name": "Pre Civil War",
+                        "type": "urn:tag:keyword:media"
+                    },
+                    {
+                        "id": "urn:tag:streaming_service:media:movistar_plus",
+                        "name": "Movistar Plus",
+                        "type": "urn:tag:streaming_service:media"
+                    }
+                    ]
+                }
+            },
+            {
+                "name": "Guardians of the Galaxy",
+                "entity_id": "02F3FF8C-74F3-4188-A39D-24B34BEF3401",
+                "type": "urn:entity",
+                "subtype": "urn:entity:movie",
+                "properties": {
+                    "release_year": 2014,
+                    "release_date": "2014-08-01"
+                }
+            }
+        ]
+    }
+}
+```
+
+----------------------------------------
+
+TITLE: TV Show API Parameters
+DESCRIPTION: Details the parameters for retrieving TV show information, covering various filters, popularity, release details, and demographic signals.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+TV Show Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.content_rating: Optional
+  filter.exclude.entities: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.finale_year.max: Optional
+  filter.finale_year.min: Optional
+  filter.latest_known_year.max: Optional
+  filter.latest_known_year.min: Optional
+  filter.parents.types: Optional
+  filter.popularity.max: Optional
+  filter.popularity.min: Optional
+  filter.release_year.max: Optional
+  filter.release_year.min: Optional
+  filter.release_country: Optional
+  operator.filter.release_country: Optional
+  filter.rating.max: Optional
+  filter.rating.min: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Book Entity
+DESCRIPTION: This section details the parameters available for API requests concerning 'Book' entities. It provides a list of parameters along with their required or optional status.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Book Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.publication_year.min: Optional
+  filter.publication_year.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Artist Entity
+DESCRIPTION: This section lists the parameters that can be used when making API requests for 'Artist' entities. It specifies the name of each parameter and whether it is required or optional for the request.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Artist Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Qloo API Filter Parameters Reference
+DESCRIPTION: Comprehensive reference for all available filter parameters in the Qloo API, including their data types, descriptions, and examples of how they affect search results.
+
+SOURCE: https://docs.qloo.com/reference/parameters
+
+LANGUAGE: APIDOC
+CODE:
+```
+Parameter: filter.location.radius
+  Type: integer
+  Description: Filter by the radius (in meters) when also supplying `filter.location` or `filter.location.query`. When this parameter is not provided, the API applies a default tuning that slightly expands the locality boundary to include nearby entities outside its official shape. To disable this behavior and strictly limit results to entities inside the defined locality boundary, set `filter.location.radius=0`.
+  Related Parameter: target.radius
+
+Parameter: filter.parents.types
+  Type: array of strings
+  Description: Filter by a comma-separated list of parental entity types (`urn:entity:place`). Each type must match exactly.
+
+Parameter: filter.popularity.max
+  Type: number
+  Description: Filter by the maximum popularity percentile a Point of Interest must have (float, between 0 and 1; closer to 1 indicates higher popularity, e.g., 0.98 for the 98th percentile).
+
+Parameter: filter.popularity.min
+  Type: number
+  Description: Filter by the minimum popularity percentile required for a Point of Interest (float, between 0 and 1; closer to 1 indicates higher popularity, e.g., 0.98 for the 98th percentile).
+  Related Parameter: filter.popularity
+
+Parameter: filter.price_level.max
+  Type: integer
+  Description: Filter by the maximum price level a Point of Interest can have (1|2|3|4, similar to dollar signs).
+
+Parameter: filter.price_level.min
+  Type: integer
+  Description: Filter by the minimum price level a Point of Interest can have (1|2|3|4, similar to dollar signs).
+
+Parameter: filter.price_range.from
+  Type: integer
+  Description: Filter places by a minimum price level, representing the lowest price in the desired range. Accepts an integer value between 0 and 1,000,000.
+
+Parameter: filter.price_range.to
+  Type: integer
+  Description: Filter places by a maximum price level, representing the highest price in the desired range. Accepts an integer value between 0 and 1,000,000.
+
+Parameter: filter.properties.business_rating.max
+  Type: float
+  Description: Filter by the highest desired business rating.
+
+Parameter: filter.properties.business_rating.min
+  Type: float
+  Description: Filter by the lowest desired business rating.
+
+Parameter: filter.publication_year.max
+  Type: number
+  Description: Filter by the latest desired year of initial publication for the work.
+
+Parameter: filter.publication_year.min
+  Type: number
+  Description: Filter by the earliest desired year of initial publication for the work.
+
+Parameter: filter.rating.max
+  Type: number
+  Description: Filter by the maximum Qloo rating a Point of Interest must have (float, between 0 and 5).
+
+Parameter: filter.rating.min
+  Type: number
+  Description: Filter by the minimum Qloo rating a Point of Interest must have (float, between 0 and 5).
+
+Parameter: filter.references_brand
+  Type: array of strings
+  Description: Filter by a comma-separated list of brand entity IDs. Use this to narrow down place recommendations to specific brands. For example, to include only Walmart stores, pass the Walmart brand ID. Each ID must match exactly.
+  Related Parameter: filter.references
+
+Parameter: filter.release_country
+  Type: array of strings
+  Description: Filter by a list of countries where a movie or TV show was originally released.
+
+Parameter: filter.results.entities
+  Description: Filter by a comma-separated list of entity IDs. Often used to assess the affinity of an entity towards input.
+
+Parameter: filter.results.entities.query
+  Description: Search for one or more entities by name to use as filters. * For GET requests: Provide a single entity name as a string. * For POST requests: You can provide a single name or an array of names.
+
+Parameter: operator.filter.release_country
+  Type: string
+  Description: Specifies how multiple `filter.release_country` values are combined in the query. Use "union" (equivalent to a logical "or") to return results that match at least one of the specified countries, or "intersection" (equivalent to a logical "and") to return only results that match all specified countries. The default is "union".
+
+Parameter: filter.release_date.max
+  Type: string, YYYY-MM-DD
+  Description: Filter by the latest desired release date.
+
+Parameter: filter.release_date.min
+  Type: string, YYYY-MM-DD
+  Description: Filter by the earliest desired release date.
+
+Parameter: filter.release_year.max
+  Type: integer
+  Description: Filter by the latest desired release year.
+
+Parameter: filter.release_year.min
+  Type: integer
+  Description: Filter by the earliest desired release year.
+
+Parameter: filter.tag.types
+  Type: array of strings
+  Description: Filter by a comma-separated list of audience types. Each audience type requires an exact match. You can retrieve a complete list of audience types via the v2/audiences/types route.
+
+Parameter: filter.tags
+  Type: string
+  Description: Filter by a comma-separated list of tag IDs (urn:tag:genre:restaurant:Italian).
+  Related Parameter: filter.tags
+
+Parameter: operator.filter.tags
+  Type: string
+  Description: Specifies how multiple `filter.tags` values are combined in the query. Use "union" (equivalent to a logical "or") to return results that match at least one of the specified tags, or "intersection" (equivalent to a logical "and") to return only results that match all specified tags. The default is "union".
+  Related Parameter: operator.filter.tags
+
+Parameter: filter.type
+  Type: string
+  Description: Filter by the <<glossary:entity type>> to return (urn:entity:place).
+  Related Parameter: type
+```
+
+----------------------------------------
+
+TITLE: Example Popularity and Tags JSON Structure
+DESCRIPTION: This JSON snippet demonstrates how popularity scores and associated tags (keywords, streaming services) are structured for an entity within the Qloo API response. Tags include identifiers, names, and types, providing granular categorization.
+
+SOURCE: https://docs.qloo.com/reference/api-onboarding
+
+LANGUAGE: json
+CODE:
+```
+{
+  "popularity": 0.9996176301895672,
+  "tags": [
+    {
+      "id": "urn:tag:streaming_service:media:directv",
+      "name": "Directv",
+      "type": "urn:tag:streaming_service:media"
+    },
+    {
+      "id": "urn:tag:keyword:media:raccoon",
+      "name": "Raccoon",
+
+```
+
+----------------------------------------
+
+TITLE: Perform Basic Insights API Call for Movies
+DESCRIPTION: This example shows how to make a basic Insights API request to retrieve movies tagged as comedies. It utilizes entity type and tag filters, along with API key authentication, to narrow down the results.
+
+SOURCE: https://docs.qloo.com/reference/api-onboarding
+
+LANGUAGE: curl
+CODE:
+```
+curl --location 'https://staging.api.qloo.com/v2/insights/?filter.type=urn:entity:movie&filter.tags=urn:tag:genre:media:comedy' \
+--header 'x-api-key: x-api-key'
+```
+
+----------------------------------------
+
+TITLE: Example Movie Entity Details JSON
+DESCRIPTION: This JSON snippet illustrates the detailed structure of a movie entity returned by the Qloo API, including descriptive information, content ratings, international titles (akas), filming locations, production companies, release countries, short descriptions in various languages, and associated websites.
+
+SOURCE: https://docs.qloo.com/reference/api-onboarding
+
+LANGUAGE: json
+CODE:
+```
+{
+  "description": "A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.",
+  "content_rating": "PG-13",
+  "duration": 121,
+  "image": {
+    "url": "https://staging.images.qloo.com/i/02F3FF8C-74F3-4188-A39D-24B34BEF3401-420x-outside.jpg"
+  },
+  "akas": [
+    {
+      "value": "Пазители на Галактиката",
+      "languages": [
+        "bg"
+      ]
+    },
+    {
+      "value": "Галактика сақшылары",
+      "languages": [
+        "kk"
+      ]
+    },
+    {
+      "value": "Galaktikas sargi",
+      "languages": [
+        "lv"
+      ]
+    }
+  ],
+  "filming_location": "Longcross Studios, Chobham Lane, Longcross, Chertsey, Surrey, England, UK",
+  "production_companies": [
+    "Moving Pictures Company",
+    "Walt Disney Pictures",
+    "Marvel Studios"
+  ],
+  "release_country": [
+    "United States",
+    "United Kingdom"
+  ],
+  "short_descriptions": [
+    {
+      "value": "2014 елның фильмы",
+      "languages": [
+        "tt"
+      ]
+    },
+    {
+      "value": "סרט מדע בדיוני מבית מארוול",
+      "languages": [
+        "he"
+      ]
+    }
+  ],
+  "websites": [
+    "http://www.facebook.com/guardiansmovie",
+    "https://www.instagram.com/guardiansofthegalaxy/"
+  ]
+}
+```
+
+----------------------------------------
+
+TITLE: Video Game API Parameters
+DESCRIPTION: Provides the parameters for querying video game data, including filters for entities, tags, popularity, and demographic signals.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Video Game Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Get Tag Types API Endpoint
+DESCRIPTION: Documents the `GET /v2/tags/types` endpoint, which returns a list of tag types supported by each entity type. This endpoint can be used with the Tags API to filter results. While the documentation mentions support for Shell, Node, Ruby, PHP, and Python, no specific code examples are provided.
+
+SOURCE: https://docs.qloo.com/reference/get-tag-types-1
+
+LANGUAGE: APIDOC
+CODE:
+```
+Endpoint: GET https://staging.api.qloo.com/v2/tags/types
+Description: Returns a list of tag types supported by each entity type. You can leverage this data with the Tags API to filter results by specific tag types.
+Authentication: Header Credentials
+Response: (Details not provided, "Click Try It! to start a request and see the response here!")
+```
+
+----------------------------------------
+
+TITLE: Authenticate Qloo API Requests with API Key
+DESCRIPTION: This snippet demonstrates how to authenticate your API requests by including the API key in the 'X-Api-Key' header. It shows a basic GET request to the Insights API with a query parameter across multiple languages.
+
+SOURCE: https://docs.qloo.com/reference/api-onboarding
+
+LANGUAGE: curl
+CODE:
+```
+curl --location --request GET 'https://staging.api.qloo.com/v2/insights?query=audi' \
+--header 'Content-Type: application/json' \
+--header 'X-Api-Key: <your-api-key>'
+```
+
+LANGUAGE: javascript
+CODE:
+```
+const fetch = require('node-fetch');
+
+const config = {
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Api-Key': process.env.API_KEY,
+  },
+};
+
+fetch('https://staging.api.qloo.com/v2/insights?query=audi', config).then(r => r.json()).then(console.log);
+```
+
+LANGUAGE: python
+CODE:
+```
+import os
+import requests
+
+url = 'https://staging.api.qloo.com/v2/insights?query=audi'
+headers = {'X-Api-Key': os.environ['API_KEY']}
+r = requests.get(url, headers=headers)
+print(r.json())
+```
+
+----------------------------------------
+
+TITLE: Get geospatial parameter options API Endpoint
+DESCRIPTION: Defines the API endpoint for retrieving available geospatial genres. This endpoint requires header-based credentials for authentication.
+
+SOURCE: https://docs.qloo.com/reference/get-geospatial-describe
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/geospatial/describe
+
+Description: Get a list of genres available through geospatial
+Authentication: Header
+```
+
+----------------------------------------
+
+TITLE: GET /analysis API Endpoint Documentation
+DESCRIPTION: Documentation for the 'Analysis' API endpoint, which allows analyzing a group of entities. Authentication is handled via request headers.
+
+SOURCE: https://docs.qloo.com/reference/get-analysis
+
+LANGUAGE: APIDOC
+CODE:
+```
+Endpoint: GET https://api.qloo.com/analysis
+Description: Analyze a group of entities
+Authentication: Header
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Brand Entity
+DESCRIPTION: This section outlines the parameters that can be utilized when making API requests for 'Brand' entities. Each parameter's name and its requirement status (required/optional) are specified.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Brand Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.exclude.entities: Optional
+  operator.exclude.tags: Optional
+  filter.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.interests.entities: Optional
+  signal.demographics.gender: Optional
+  signal.interests.tags: Optional
+  offset: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Qloo API Base Endpoint
+DESCRIPTION: This is the base URL for the Qloo API, indicating a GET request to access its functionalities. It serves as the entry point for all API interactions.
+
+SOURCE: https://docs.qloo.com/reference/api-information
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/
+```
+
+----------------------------------------
+
+TITLE: Basic Insights Request Example
+DESCRIPTION: This sample request uses the Insights route to retrieve a list of movies. It filters for movies tagged as comedy and released after 2022, demonstrating the use of `filter.type`, `filter.tags`, and `filter.release_year.min` parameters.
+
+SOURCE: https://docs.qloo.com/reference/basic-insights-use-case
+
+LANGUAGE: curl
+CODE:
+```
+curl --location 'https://staging.api.qloo.com/v2/insights/?filter.type=urn:entity:movie&filter.tags=urn:tag:genre:media:comedy&filter.release_year.min=2022' \
+--header 'x-api-key: x-api-key'
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Album Entity Type
+DESCRIPTION: This section outlines the specific parameters that can be used when making a request with `filter.type` set to 'Album'. It specifies whether each parameter is required or optional for the request.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Entity Type: Album
+Parameters:
+- filter.type: Required
+- filter.exclude.entities: Optional
+- filter.parents.types: Optional
+- filter.popularity.min: Optional
+- filter.popularity.max: Optional
+- filter.release_date.min: Optional
+- filter.release_date.max: Optional
+- filter.results.entities: Optional
+- filter.results.entities.query: Optional
+- filter.tags: Optional
+- operator.filter.tags: Optional
+- filter.exclude.tags: Optional
+- operator.exclude.tags: Optional
+- offset: Optional
+- signal.interests.entities: Optional
+- signal.interests.tags: Optional
+- take: Optional
+```
+
+----------------------------------------
+
+TITLE: Deprecated Actor API Parameters
+DESCRIPTION: Documents the parameters for the deprecated 'Actor' entity type. Users are advised to use the 'Person' entity type instead.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Actor Parameters (Deprecated):
+  filter.type: Required
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  signal.demographics.gender: Optional
+  signal.demographics.age: Optional
+  bias.trends: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  filter.exclude.entities: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  offset: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: Qloo Insights API Common Use Cases
+DESCRIPTION: This section outlines the primary applications of the Qloo Insights API, detailing how to retrieve various types of insights such as basic recommendations, demographic affinities, location-based data, and taste analysis. It serves as a guide for understanding the API's capabilities and common integration patterns.
+
+SOURCE: https://docs.qloo.com/reference/use-cases
+
+LANGUAGE: APIDOC
+CODE:
+```
+Insights API Use Cases:
+- Basic Insights: Retrieve recommendations based on the entity type.
+- Demographic Insights: Retrieve the demographic affinity scores for an entity or tag.
+- Heatmaps: Generate heatmap data.
+- Location Insights: Retrieve recommendations based on location.
+- Taste Analysis: Retrieve tag metadata.
+```
+
+----------------------------------------
+
+TITLE: Get Audience Types API Endpoint Specification
+DESCRIPTION: This snippet provides the specification for the 'Get Audience Types' API endpoint. It details the HTTP method, URL, and a brief description of its functionality, including an implicit parameter for filtering.
+
+SOURCE: https://docs.qloo.com/reference/get-audience-types-1
+
+LANGUAGE: APIDOC
+CODE:
+```
+Endpoint: GET https://staging.api.qloo.com/v2/audiences/types
+Description: Returns all available audience type IDs, representing different audience categories.
+Usage: Use this API to explore audience classifications and refine searches in the Find Audiences API.
+Optional Parameter: filter.parents.types (Allows narrowing results by relevant entity types)
+```
+
+----------------------------------------
+
+TITLE: Get Heatmap Data API Endpoint
+DESCRIPTION: This is the HTTP GET endpoint for retrieving heatmap data from the Qloo API. It allows users to fetch heatmap information based on various specified criteria.
+
+SOURCE: https://docs.qloo.com/reference/get-heatmap
+
+LANGUAGE: APIDOC
+CODE:
+```
+get https://api.qloo.com/geospatial/heatmap
+```
+
+----------------------------------------
+
+TITLE: GET /geospatial API Endpoint
+DESCRIPTION: Defines the HTTP GET endpoint for retrieving geospatial insights from the Qloo API. This endpoint allows users to query for geospatial data based on various criteria.
+
+SOURCE: https://docs.qloo.com/reference/get-geospatial
+
+LANGUAGE: APIDOC
+CODE:
+```
+get https://api.qloo.com/geospatial
+```
+
+----------------------------------------
+
+TITLE: Qloo Analysis Compare API Endpoint
+DESCRIPTION: Documents the GET endpoint for comparing two groups of entities using the Qloo Insights API.
+
+SOURCE: https://docs.qloo.com/reference/analysis-compare-1
+
+LANGUAGE: APIDOC
+CODE:
+```
+Method: GET
+Endpoint: https://api.qloo.com/v2/insights/compare
+Description: Analyze and compare two groups of entities.
+```
+
+----------------------------------------
+
+TITLE: Get Geospatial Insights API Endpoint
+DESCRIPTION: Describes the HTTP GET endpoint for retrieving geospatial insights from the Qloo API. This endpoint allows users to query for geospatial data based on various criteria.
+
+SOURCE: https://docs.qloo.com/reference/geo
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/geospatial
+```
+
+----------------------------------------
+
+TITLE: API Endpoint: Get Entities by ID
+DESCRIPTION: Defines the HTTP GET endpoint for retrieving entities using an array of IDs. This endpoint is a core part of the Qloo API's entity search capabilities.
+
+SOURCE: https://docs.qloo.com/reference/get-entities
+
+LANGUAGE: APIDOC
+CODE:
+```
+GET https://api.qloo.com/entities
+Description: Get entities based on an array of IDs.
+```
+
+----------------------------------------
+
+TITLE: Get Trending Entities API Endpoint
+DESCRIPTION: Defines the HTTP GET endpoint for retrieving currently trending entities based on a specified category from the Qloo API.
+
+SOURCE: https://docs.qloo.com/reference/get-trends-category
+
+LANGUAGE: APIDOC
+CODE:
+```
+get https://api.qloo.com/trends/category
+```
+
+----------------------------------------
+
+TITLE: Entity Search API Endpoint
+DESCRIPTION: This is the HTTP GET endpoint for searching entities within the Qloo API. It allows users to query for entities by name or specific properties.
+
+SOURCE: https://docs.qloo.com/reference/get-search
+
+LANGUAGE: APIDOC
+CODE:
+```
+get https://api.qloo.com/search
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Deprecated Author Entity
+DESCRIPTION: This section details the API parameters available for the 'Author' entity type. This entity is deprecated; it is recommended to use the 'Person' entity type instead for new implementations or migrations.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+filter.type: Required
+signal.interests.entities: Optional
+signal.interests.tags: Optional
+signal.demographics.gender: Optional
+signal.demographics.age: Optional
+bias.trends: Optional
+signal.demographics.audiences: Optional
+signal.demographics.audiences.weight: Optional
+filter.exclude.entities: Optional
+filter.popularity.min: Optional
+filter.popularity.max: Optional
+filter.publication_year.min: Optional
+filter.publication_year.max: Optional
+filter.results.entities: Optional
+filter.results.entities.query: Optional
+filter.tags: Optional
+operator.filter.tags: Optional
+filter.exclude.tags: Optional
+operator.exclude.tags: Optional
+filter.external.exists: Optional
+operator.filter.external.exists: Optional
+offset: Optional
+take: Optional
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Deprecated Director Entity
+DESCRIPTION: This section details the API parameters available for the 'Director' entity type. This entity is deprecated; it is recommended to use the 'Person' entity type instead for new implementations or migrations.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+filter.type: Required
+signal.interests.entities: Optional
+signal.interests.tags: Optional
+signal.demographics.gender: Optional
+signal.demographics.age: Optional
+bias.trends: Optional
+signal.demographics.audiences: Optional
+signal.demographics.audiences.weight: Optional
+filter.exclude.entities: Optional
+filter.popularity.min: Optional
+filter.popularity.max: Optional
+filter.results.entities: Optional
+filter.results.entities.query: Optional
+filter.tags: Optional
+operator.filter.tags: Optional
+filter.exclude.tags: Optional
+operator.exclude.tags: Optional
+filter.external.exists: Optional
+operator.filter.external.exists: Optional
+take: Optional
+```
+
+----------------------------------------
+
+TITLE: Insights by Location API Response Example
+DESCRIPTION: A truncated sample JSON response demonstrating the structure for movie entities tagged as comedies, including details like name, ID, type, properties (release year, description, image, AKAs, filming location, production companies, release country, short descriptions).
+
+SOURCE: https://docs.qloo.com/reference/insights-with-location-use-case
+
+LANGUAGE: json
+CODE:
+```
+{
+    "success": true,
+    "results": {
+        "entities": [
+            {
+                "name": "Queen & Slim",
+                "entity_id": "9E2FD257-7E23-483A-8276-36FF51A5DD67",
+                "type": "urn:entity",
+                "subtype": "urn:entity:movie",
+                "properties": {
+                    "release_year": 2019,
+                    "release_date": "2019-11-27",
+                    "description": "A couple's first date takes an unexpected turn when a police officer pulls them over.",
+                    "content_rating": "R",
+                    "duration": 132,
+                    "image": {
+                        "url": "https://staging.images.qloo.com/i/9E2FD257-7E23-483A-8276-36FF51A5DD67-420x-outside.jpg"
+                    },
+                    "akas": [
+                        {
+                            "value": "Queen and Slim",
+                            "languages": [
+                                "fr",
+                                "en"
+                            ]
+                        },
+                        {
+                            "value": "Queen e Slim",
+                            "languages": [
+                                "gl"
+                            ]
+                        },
+                        {
+                            "value": "Queen i Slim",
+                            "languages": [
+                                "ca"
+                            ]
+                        },
+                        {
+                            "value": "Квин и Слим",
+                            "languages": [
+                                "ru"
+                            ]
+                        },
+                        {
+                            "value": "كوين وسليم",
+                            "languages": [
+                                "ar"
+                            ]
+                        },
+                        {
+                            "value": "کوئین و اسلیم",
+                            "languages": [
+                                "fa"
+                            ]
+                        },
+                        {
+                            "value": "クイーン&スリム",
+                            "languages": [
+                                "ja"
+                            ]
+                        },
+                        {
+                            "value": "皇后与瘦子",
+                            "languages": [
+                                "zh"
+                            ]
+                        },
+                        {
+                            "value": "皇后與瘦子",
+                            "languages": [
+                                "zh"
+                            ]
+                        },
+                        {
+                            "value": "퀸 앤 슬림",
+                            "languages": [
+                                "ko"
+                            ]
+                        }
+                    ],
+                    "filming_location": "6900 St. Clair Avenue, Cleveland, Ohio, USA",
+                    "production_companies": [
+                        "De La Revolución Films",
+                        "Hillman Grad",
+                        "Makeready"
+                    ],
+                    "release_country": [
+                        "United States",
+                        "Canada"
+                    ],
+                    "short_descriptions": [
+                        {
+                            "value": "2019 film directed by Melina Matsoukas",
+                            "languages": [
+                                "en"
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Place Entity
+DESCRIPTION: Defines the available query parameters for filtering and biasing search results when requesting place entities. Parameters include address, geocode, hotel class, price levels, and various external ratings, with `filter.type` being a required parameter.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Place Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.address: Optional
+  filter.exclude.entities: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.external.tripadvisor.rating.count.max: Optional
+  filter.external.tripadvisor.rating.count.min: Optional
+  filter.external.tripadvisor.rating.max: Optional
+  filter.external.tripadvisor.rating.min: Optional
+  filter.geocode.name: Optional
+  filter.geocode.admin1_region: Optional
+  filter.geocode.admin2_region: Optional
+  filter.geocode.country_code: Optional
+  filter.hotel_class.max: Optional
+  filter.hotel_class.min: Optional
+  filter.hours: Optional
+  filter.location: Optional
+  filter.location.geohash: Optional
+  filter.exclude.location.geohash: Optional
+  filter.location.radius: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.price_level.min: Optional
+  filter.price_level.max: Optional
+  filter.price_range.from: Optional
+  filter.price_range.to: Optional
+  filter.properties.business_rating.min: Optional
+  filter.properties.business_rating.max: Optional
+  filter.properties.resy.rating.min: Optional
+  filter.properties.resy.rating.max: Optional
+  filter.references_brand: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.resy.rating_count.min: Optional
+  filter.resy.rating_count.max: Optional
+  filter.resy.rating.party.min: Optional
+  filter.resy.rating.party.max: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
+
+----------------------------------------
+
+TITLE: API Parameters for Movie Entity
+DESCRIPTION: Defines the available query parameters for filtering and biasing search results when requesting movie entities. Parameters include content ratings, release details, popularity, and demographic signals, with `filter.type` being a required parameter.
+
+SOURCE: https://docs.qloo.com/reference/available-parameters-by-entity-type
+
+LANGUAGE: APIDOC
+CODE:
+```
+Movie Parameters:
+  filter.type: Required
+  bias.trends: Optional
+  filter.content_rating: Optional
+  filter.exclude.entities: Optional
+  filter.external.exists: Optional
+  operator.filter.external.exists: Optional
+  filter.exclude.tags: Optional
+  operator.exclude.tags: Optional
+  filter.parents.types: Optional
+  filter.popularity.min: Optional
+  filter.popularity.max: Optional
+  filter.release_year.min: Optional
+  filter.release_year.max: Optional
+  filter.release_country: Optional
+  operator.filter.release_country: Optional
+  filter.rating.min: Optional
+  filter.rating.max: Optional
+  filter.results.entities: Optional
+  filter.results.entities.query: Optional
+  filter.tags: Optional
+  operator.filter.tags: Optional
+  offset: Optional
+  signal.demographics.audiences: Optional
+  signal.demographics.age: Optional
+  signal.demographics.audiences.weight: Optional
+  signal.demographics.gender: Optional
+  signal.interests.entities: Optional
+  signal.interests.tags: Optional
+  take: Optional
+```
