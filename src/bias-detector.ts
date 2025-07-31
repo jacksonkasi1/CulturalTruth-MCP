@@ -135,7 +135,7 @@ export class EnhancedBiasDetector {
 
     // Apply multiple entity extraction patterns
     for (const pattern of this.ENTITY_PATTERNS) {
-      const matches = sanitizedText.match(pattern) || [];
+      const matches = sanitizedText.match(pattern) ?? [];
       matches.forEach(match => {
         const cleaned = match.replace(/["']/g, '').trim();
         if (cleaned.length >= 3 && cleaned.length <= 50 &&
@@ -188,7 +188,7 @@ export class EnhancedBiasDetector {
           adjustedConfidence *= 1.1;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
         const { detectionLevel, ...patternWithoutDetectionLevel } = pattern;
         detectedBias.push({
           ...patternWithoutDetectionLevel,

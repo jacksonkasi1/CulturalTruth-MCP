@@ -645,7 +645,7 @@ class EnhancedBiasDetector {
           adjustedConfidence *= 1.1;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
         const { detectionLevel, ...patternWithoutDetectionLevel } = pattern;
         detectedBias.push({
           ...patternWithoutDetectionLevel,
@@ -1355,6 +1355,7 @@ class EnhancedQlooClient {
   // QLOO API METHODS
   // =============================================================================
 
+  // eslint-disable-next-line require-await
   async getBasicInsights(params: {
     "filter.type": string;
     "filter.tags"?: string;
@@ -1385,6 +1386,7 @@ class EnhancedQlooClient {
     });
   }
 
+  // eslint-disable-next-line require-await
   async getDemographicInsights(params: {
     "filter.type": string;
     "signal.demographics.age"?: string;
@@ -1414,6 +1416,7 @@ class EnhancedQlooClient {
     });
   }
 
+  // eslint-disable-next-line require-await
   async searchEntities(params: {
     query: string;
     type?: string;
@@ -1438,6 +1441,7 @@ class EnhancedQlooClient {
     });
   }
 
+  // eslint-disable-next-line require-await
   async compareEntities(params: {
     entities_a: string;
     entities_b: string;
@@ -1461,6 +1465,7 @@ class EnhancedQlooClient {
     });
   }
 
+  // eslint-disable-next-line require-await
   async getTrendingEntities(params: { type: string }): Promise<QlooResponse> {
     return this.circuitBreaker.execute(async () => {
       try {
@@ -1481,6 +1486,7 @@ class EnhancedQlooClient {
     });
   }
 
+  // eslint-disable-next-line require-await
   async getGeospatialInsights(params: {
     "filter.type": string;
     "filter.location"?: string;
@@ -1800,6 +1806,7 @@ class EnhancedQlooClient {
     }
   }
 
+  // eslint-disable-next-line require-await
   private async getEntitiesByIds(entityIds: string[]): Promise<QlooResponse> {
     return this.circuitBreaker.execute(async () => {
       try {
@@ -1824,13 +1831,13 @@ class EnhancedQlooClient {
 
   private analyzeEntityGroup(entities: QlooEntity[]) {
     const avgPopularity =
-      entities.reduce((sum, e) => sum + (e.properties?.popularity || 0), 0) /
+      entities.reduce((sum, e) => sum + (e.properties?.popularity ?? 0), 0) /
       entities.length;
 
-    const allTags = entities.flatMap((e) => e.properties?.tags || []);
+    const allTags = entities.flatMap((e) => e.properties?.tags ?? []);
     const tagCounts = allTags.reduce(
       (acc, tag) => {
-        acc[tag.name] = (acc[tag.name] || 0) + 1;
+        acc[tag.name] = (acc[tag.name] ?? 0) + 1;
         return acc;
       },
       {} as Record<string, number>,
@@ -1891,6 +1898,7 @@ class EnhancedQlooClient {
     };
   }
 
+  // eslint-disable-next-line require-await
   async getCulturalTrends(params: {
     category: string;
     timeframe?: string;
@@ -2072,7 +2080,7 @@ let serverConfig: EnvironmentConfig = DEFAULT_HACKATHON_CONFIG;
 // TOOL DEFINITIONS
 // =============================================================================
 
-server.setRequestHandler(ListToolsRequestSchema, async () => {
+server.setRequestHandler(ListToolsRequestSchema, () => {
   return {
     tools: [
       {
@@ -3171,7 +3179,7 @@ server.setRequestHandler(
             response += `• Content curation decisions\n`;
           } else {
             response += `❌ **Comparison failed**\n`;
-            response += `Error: ${result.error || "Unknown error"}\n\n`;
+            response += `Error: ${result.error ?? "Unknown error"}\n\n`;
             response += `Please check that:\n`;
             response += `• Entity IDs are valid Qloo identifiers\n`;
             response += `• IDs are comma-separated\n`;
