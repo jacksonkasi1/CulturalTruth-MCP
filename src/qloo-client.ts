@@ -364,7 +364,7 @@ export class EnhancedQlooClient {
     this.auditTrails.push(trail);
 
     // Keep only recent audit trails in memory (configurable retention)
-    const maxTrails = parseInt(process.env.MAX_AUDIT_TRAILS || '1000');
+    const maxTrails = parseInt(process.env.MAX_AUDIT_TRAILS ?? '1000');
     if (this.auditTrails.length > maxTrails) {
       this.auditTrails = this.auditTrails.slice(-maxTrails);
     }
@@ -374,7 +374,7 @@ export class EnhancedQlooClient {
   // QLOO API METHODS
   // =============================================================================
 
-  async getBasicInsights(params: {
+  getBasicInsights(params: {
     'filter.type': string;
     'filter.tags'?: string;
     'filter.release_year.min'?: number;
@@ -404,7 +404,7 @@ export class EnhancedQlooClient {
     });
   }
 
-  async getDemographicInsights(params: {
+  getDemographicInsights(params: {
     'filter.type': string;
     'signal.demographics.age'?: string;
     'signal.demographics.gender'?: string;
@@ -433,7 +433,7 @@ export class EnhancedQlooClient {
     });
   }
 
-  async searchEntities(params: {
+  searchEntities(params: {
     query: string;
     type?: string;
     limit?: number;
@@ -457,7 +457,7 @@ export class EnhancedQlooClient {
     });
   }
 
-  async compareEntities(params: {
+  compareEntities(params: {
     'entities_a': string;
     'entities_b': string;
   }): Promise<QlooResponse> {
@@ -480,7 +480,7 @@ export class EnhancedQlooClient {
     });
   }
 
-  async getTrendingEntities(params: {
+  getTrendingEntities(params: {
     type: string;
   }): Promise<QlooResponse> {
     return this.circuitBreaker.execute(async () => {
@@ -502,7 +502,7 @@ export class EnhancedQlooClient {
     });
   }
 
-  async getGeospatialInsights(params: {
+  getGeospatialInsights(params: {
     'filter.type': string;
     'filter.location'?: string;
     'filter.location.radius'?: number;
@@ -742,7 +742,7 @@ export class EnhancedQlooClient {
     }
   }
 
-  private async getEntitiesByIds(entityIds: string[]): Promise<QlooResponse> {
+  private getEntitiesByIds(entityIds: string[]): Promise<QlooResponse> {
     return this.circuitBreaker.execute(async () => {
       try {
         const response = await this.api.get('/entities', {
@@ -766,11 +766,11 @@ export class EnhancedQlooClient {
 
   private analyzeEntityGroup(entities: QlooEntity[]) {
     const avgPopularity = entities.reduce((sum, e) =>
-      sum + (e.properties?.popularity || 0), 0) / entities.length;
+      sum + (e.properties?.popularity ?? 0), 0) / entities.length;
 
-    const allTags = entities.flatMap(e => e.properties?.tags || []);
+    const allTags = entities.flatMap(e => e.properties?.tags ?? []);
     const tagCounts = allTags.reduce((acc, tag) => {
-      acc[tag.name] = (acc[tag.name] || 0) + 1;
+      acc[tag.name] = (acc[tag.name] ?? 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
@@ -816,7 +816,7 @@ export class EnhancedQlooClient {
     };
   }
 
-  async getCulturalTrends(params: {
+  getCulturalTrends(params: {
     category: string;
     timeframe?: string;
     demographic?: string;
