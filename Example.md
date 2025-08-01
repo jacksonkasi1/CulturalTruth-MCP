@@ -78,11 +78,11 @@ I'm creating a playlist for young adults who love Marvel movies. Find trending c
 🔥 Currently trending (8 entities):
 
 1. **Deadpool & Wolverine** (2024) - 94.2th percentile popularity
-   Entity ID: urn:qloo:movie:deadpool-wolverine-2024
+   Entity ID: urn:entity:movie:deadpool-wolverine-2024
 2. **The Boys** (2019) - 91.7th percentile popularity
-   Entity ID: urn:qloo:tv:the-boys
+   Entity ID: urn:entity:tv_show:the-boys
 3. **Invincible** (2021) - 88.9th percentile popularity
-   Entity ID: urn:qloo:tv:invincible-amazon
+   Entity ID: urn:entity:tv_show:invincible-amazon
 
 ## 📊 Demographic Analysis for YOUNG_ADULT
 **Age Group Preferences (87% confidence):**
@@ -249,15 +249,15 @@ I'm planning a cultural festival in San Francisco for diverse audiences. Find po
 ## 📍 Cultural Venues Found (12 locations):
 
 1. **Mission Cultural Center** (4.8⭐) $$
-   Entity ID: urn:qloo:place:mission-cultural-sf
+   Entity ID: urn:entity:place:mission-cultural-sf
    Latinx cultural programming, community-focused events
 
 2. **Asian Art Museum** (4.6⭐) $$$
-   Entity ID: urn:qloo:place:asian-art-museum-sf
+   Entity ID: urn:entity:place:asian-art-museum-sf
    Pan-Asian cultural exhibitions, diverse programming
 
 3. **Fillmore Heritage Center** (4.5⭐) $$
-   Entity ID: urn:qloo:place:fillmore-heritage-sf
+   Entity ID: urn:entity:place:fillmore-heritage-sf
    African American cultural history, jazz venue
 
 ## 📊 Demographic Cultural Preferences
@@ -315,7 +315,7 @@ For a cultural festival in San Francisco, consider popular venues like parks, co
 | **Capability** | **Without MCP** | **With CulturalTruth MCP** |
 |---|---|---|
 | **Bias Detection** | Generic advice, miss critical issues | 50+ patterns, confidence scores, regulatory mapping |
-| **Cultural Intelligence** | General suggestions | Real-time data from 500M+ entities, demographic insights |
+| **Cultural Intelligence** | General suggestions | Real-time data from 500M+ entities across 10 official entity types, demographic insights |
 | **Compliance Analysis** | Manual review required | Automated EU AI Act, GDPR, ADA scoring |
 | **Risk Assessment** | Subjective judgment | Quantified risk levels with audit trails |
 | **Cultural Insights** | Surface-level recommendations | Deep cultural affinity analysis, trending data |
@@ -332,13 +332,40 @@ For a cultural festival in San Francisco, consider popular venues like parks, co
 
 4. "Review this hiring announcement for potential discrimination issues: 'Seeking digital natives for our startup culture'"
 
-5. "What cultural events are trending in New York that would appeal to young professionals?"
+5. "What trending destinations would appeal to young professionals traveling from New York?"
 
-6. "Generate a batch analysis of these 5 marketing headlines for bias and cultural sensitivity"
+6. "Find popular artists and musicians that would appeal to middle-aged audiences in Europe"
 
-7. "Create a compliance report showing our improvement over the last 30 days"
+7. "Search for trending video games that have strong cultural crossover appeal"
 
-8. "Find cultural entities similar to 'Squid Game' that would appeal to the same audience"
+8. "Analyze cultural preferences for podcast content among different demographic groups"
+
+9. "Find books by diverse authors that are trending with young adult readers"
+
+10. "What brand partnerships would make sense for a cultural festival targeting multiple demographics?"
+
+11. "Generate a batch analysis of these 5 marketing headlines for bias and cultural sensitivity"
+
+12. "Create a compliance report showing our improvement over the last 30 days"
+
+13. "Find cultural entities similar to 'Squid Game' that would appeal to the same audience"
 ```
 
 Each prompt showcases different aspects of the MCP's capabilities - from bias detection to cultural intelligence to compliance reporting - demonstrating the comprehensive value of having integrated cultural intelligence and bias detection directly in your AI workflow.
+
+## 🎯 Supported Entity Types (Updated per Official Qloo Documentation)
+
+The CulturalTruth MCP now supports all **10 official Qloo entity types**:
+
+1. **urn:entity:movie** - Feature-length films and cinematic works
+2. **urn:entity:tv_show** - Television content, series, reality shows  
+3. **urn:entity:artist** - Musicians, visual artists, performers
+4. **urn:entity:book** - Written works, novels, non-fiction
+5. **urn:entity:place** - Physical locations and venues
+6. **urn:entity:destination** - Geographic destinations, cities, neighborhoods
+7. **urn:entity:podcast** - Episodic audio series and shows
+8. **urn:entity:video_game** - Interactive digital games
+9. **urn:entity:brand** - Commercial brands, retail chains, products
+10. **urn:entity:person** - Individual people (includes actors, authors, directors)
+
+*Note: Previously deprecated entity types (Actor, Author, Director) are now consolidated under the **Person** entity type as recommended by Qloo documentation.*

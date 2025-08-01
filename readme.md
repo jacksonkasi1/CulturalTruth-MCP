@@ -34,7 +34,7 @@ Each pattern includes severity levels, regulatory risk assessment, and suggested
 ### 🎭 Qloo Cultural Intelligence
 
 Full integration with Qloo's cultural database:
-- **Entity Search & Validation** - Search 500M+ cultural entities
+- **Entity Search & Validation** - Search 500M+ cultural entities across 10 official entity types
 - **Demographic Analysis** - Age/gender-based cultural preferences
 - **Trending Content** - Real-time cultural relevance data  
 - **Geospatial Insights** - Location-based cultural recommendations
@@ -132,6 +132,23 @@ Add to your Claude Desktop config:
 ```
 
 ## 🛠️ Available Tools
+
+### 🎯 Supported Entity Types
+
+CulturalTruth MCP supports all **10 official Qloo entity types** per the [official documentation](https://docs.qloo.com/reference/available-parameters-by-entity-type):
+
+1. **`urn:entity:movie`** - Feature-length films and cinematic works
+2. **`urn:entity:tv_show`** - Television content, series, reality shows  
+3. **`urn:entity:artist`** - Musicians, visual artists, performers
+4. **`urn:entity:book`** - Written works, novels, non-fiction
+5. **`urn:entity:place`** - Physical locations and venues
+6. **`urn:entity:destination`** - Geographic destinations, cities, neighborhoods
+7. **`urn:entity:podcast`** - Episodic audio series and shows
+8. **`urn:entity:video_game`** - Interactive digital games
+9. **`urn:entity:brand`** - Commercial brands, retail chains, products
+10. **`urn:entity:person`** - Individual people (includes actors, authors, directors)
+
+*Note: Previously deprecated entity types (Actor, Author, Director) are now consolidated under the **Person** entity type as recommended by Qloo.*
 
 ### Core Analysis Tools
 
@@ -408,14 +425,35 @@ const result = await analyzeContentBias({
 ### Cultural Entity Analysis
 ```typescript
 // Search for movie entities with demographic filtering
-const insights = await qlooBasicInsights({
+const movieInsights = await qlooBasicInsights({
   entity_type: "urn:entity:movie",
   popularity_min: 0.8,
   release_year_min: 2020,
   limit: 10
 });
 
-// Returns culturally relevant movies with popularity metrics
+// Search for trending podcasts for young adults
+const podcastInsights = await qlooBasicInsights({
+  entity_type: "urn:entity:podcast",
+  popularity_min: 0.7,
+  limit: 5
+});
+
+// Find popular destinations for cultural events
+const destinationInsights = await qlooBasicInsights({
+  entity_type: "urn:entity:destination",
+  popularity_min: 0.6,
+  limit: 8
+});
+
+// Search for influential artists and creators
+const artistInsights = await qlooBasicInsights({
+  entity_type: "urn:entity:person",
+  popularity_min: 0.8,
+  limit: 10
+});
+
+// Returns culturally relevant entities with popularity metrics
 ```
 
 ### Compliance Reporting
@@ -462,9 +500,12 @@ await configureEnvironment({
 - **Product Descriptions**: Validate accessibility-friendly language
 
 ### Cultural Intelligence
-- **Content Curation**: Find culturally relevant content for specific audiences
-- **Market Research**: Understand cultural preferences by demographics
-- **Trend Analysis**: Track cultural movements and emerging preferences
+- **Content Curation**: Find culturally relevant movies, TV shows, books, and podcasts for specific audiences
+- **Market Research**: Understand cultural preferences across all 10 entity types by demographics
+- **Trend Analysis**: Track cultural movements and emerging preferences across destinations, artists, and brands
+- **Event Planning**: Discover popular venues, destinations, and cultural personalities for events
+- **Influencer Marketing**: Identify trending artists, creators, and cultural figures (person entities)
+- **Travel & Tourism**: Find popular destinations and cultural places for targeted recommendations
 
 ### Compliance & Risk Management
 - **Regulatory Compliance**: Meet EU AI Act, GDPR, ADA requirements
