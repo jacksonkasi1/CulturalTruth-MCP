@@ -121,45 +121,29 @@ Review this marketing copy for cultural sensitivity and suggest improvements: "O
 
 **WITH CulturalTruth MCP:**
 ```
-🛡️ Marketing Copy Analysis Report
+🛡️ **CulturalTruth Analysis Report**
 
 ## Executive Summary
-**Overall Compliance Score:** 67/100 (MEDIUM)
-**Cultural Entities Identified:** 2
+**Overall Compliance Score:** 100/100 (LOW)
+**Processing Time:** 3271ms
+**Session ID:** ee3e1062fea960d7
 
-## ⚠️ Bias Detection Results (2 issues found)
+## Regulatory Compliance Scores
+• **EU AI Act:** 100/100
+• **Section 508 (Accessibility):** 100/100
+• **GDPR (Data Protection):** 100/100
 
-**📋 MEDIUM PRIORITY (2):**
-1. **RACIAL PROXY** (74% confidence)
-   • Matches: "Stanford grads"
-   • Suggestions: qualified developers, experienced team, expert engineers
-   • Risk: May exclude qualified candidates from other institutions
+## ✅ No Bias Detected
+Content appears to meet bias prevention standards.
 
-2. **ACCESSIBILITY BARRIER** (68% confidence) 
-   • Matches: "no time for excuses"
-   • Suggestions: flexible fitness solutions, adaptable routines
-   • Risk: May alienate people with legitimate time/health constraints
+## 🔧 Recommended Actions
+1. ✅ No bias detected - content appears compliant
 
-## 🎭 Cultural Intelligence Insights
-**Entities Found:**
-1. **Stanford University** - Elite education institution
-   Cultural relevance: High among tech professionals
-   Demographic appeal: Strongest with 25-40 age group
-
-## 🔧 Improved Copy Suggestions
-**Original:** "Built by Stanford grads using cutting-edge AI"
-**Better:** "Built by experienced engineers using advanced AI technology"
-
-**Original:** "go-getters who don't have time for excuses"
-**Better:** "motivated professionals with busy schedules"
-
-## ✅ Positive Elements
-• "busy professionals" - inclusive, broad appeal
-• "premium" positioning - clear value proposition
-• "cutting-edge AI" - appeals to tech-savvy audience
-
-**Revised Copy:**
-"Our premium fitness app is perfect for busy professionals who want to stay in shape! Designed for motivated individuals with demanding schedules who need flexible fitness solutions. Built by experienced engineers using advanced AI technology."
+## 📋 Audit Trail Details
+• Content Hash: 0a2c2013453dc16f...
+• API Calls Made: 4
+• Cache Hits: 0
+• Processing Time: 3271ms
 ```
 
 **WITHOUT CulturalTruth MCP:**
