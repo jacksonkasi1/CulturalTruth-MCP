@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 async function testQlooAPI() {
-  const API_KEY = 'your_api_key_here';
+  const API_KEY = process.env.QLOO_API_KEY || 'your_api_key_here';
   const BASE_URL = 'https://hackathon.api.qloo.com';
 
   console.log('🧪 Testing Qloo Hackathon API...');

@@ -24,7 +24,7 @@ console.log('✅ Bias detection logic is working correctly!');
 
 // Test API key
 console.log('\n🔑 API Key Test:');
-const apiKey = 'your_api_key_here';
+const apiKey = process.env.QLOO_API_KEY || 'your_api_key_here';
 console.log(`API Key Length: ${apiKey.length}`);
 console.log(`API Key Preview: ${apiKey.substring(0, 10)}...`);
 console.log('✅ API key is properly configured!');

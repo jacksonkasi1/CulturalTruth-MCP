@@ -4,7 +4,7 @@ async function testMCPTools() {
     console.log('🧪 Testing CulturalTruth MCP Server...');
     
     // Set environment
-    process.env.QLOO_API_KEY = 'your_api_key_here';
+    process.env.QLOO_API_KEY = process.env.QLOO_API_KEY || 'your_api_key_here';
     
     // Test cases
     const testCases = [
@@ -75,7 +75,7 @@ function runSingleTest(testCase) {
         // Start MCP server
         const mcpProcess = spawn('node', ['dist/index.js'], {
             cwd: __dirname,
-            env: { ...process.env, QLOO_API_KEY: 'your_api_key_here' },
+            env: { ...process.env, QLOO_API_KEY: process.env.QLOO_API_KEY || 'your_api_key_here' },
             stdio: ['pipe', 'pipe', 'pipe']
         });
 

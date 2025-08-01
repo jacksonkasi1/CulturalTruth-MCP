@@ -13,7 +13,7 @@ const environments = [
     {
         name: "Hackathon Mode",
         env: {
-            QLOO_API_KEY: 'your_api_key_here',
+            QLOO_API_KEY: process.env.QLOO_API_KEY || 'your_api_key_here',
             CULTURAL_TRUTH_MODE: 'Hackathon'
         },
         expectedBehavior: {
@@ -26,7 +26,7 @@ const environments = [
     {
         name: "Production Mode", 
         env: {
-            QLOO_API_KEY: 'your_api_key_here',
+            QLOO_API_KEY: process.env.QLOO_API_KEY || 'your_api_key_here',
             CULTURAL_TRUTH_MODE: 'Production'
         },
         expectedBehavior: {
