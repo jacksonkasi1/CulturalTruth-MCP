@@ -1056,11 +1056,23 @@ class EnhancedQlooClient {
   }
 
   private sanitizeOutput(entity: QlooEntity): QlooEntity {
+    // Handle undefined or malformed entities
+    if (!entity || typeof entity !== 'object') {
+      console.warn('Invalid entity passed to sanitizeOutput:', entity);
+      return {
+        name: "Unknown",
+        entity_id: "unknown",
+        type: "unknown",
+        subtype: undefined,
+        properties: {},
+      };
+    }
+
     // Only return safe, non-PII properties
     const sanitized: QlooEntity = {
       name: entity.name || "Unknown",
-      entity_id: entity.entity_id,
-      type: entity.type,
+      entity_id: entity.entity_id || "unknown",
+      type: entity.type || "unknown",
       subtype: entity.subtype,
       properties: {},
     };
@@ -1125,7 +1137,9 @@ class EnhancedQlooClient {
         if (cachedResults) {
           cacheHits++;
           culturalEntities.push(
-            ...cachedResults.map((entity) => this.sanitizeOutput(entity)),
+            ...cachedResults
+              .filter((entity) => entity && typeof entity === 'object' && entity.name) // Filter out invalid cached entities
+              .map((entity) => this.sanitizeOutput(entity)),
           );
         } else {
           // Parallel entity lookups with rate limiting
@@ -1140,7 +1154,8 @@ class EnhancedQlooClient {
               (result): result is PromiseFulfilledResult<QlooResponse> =>
                 result.status === "fulfilled" && result.value.success,
             )
-            .flatMap((result) => result.value.results.entities);
+            .flatMap((result) => result.value.results.entities)
+            .filter((entity) => entity && typeof entity === 'object' && entity.name); // Filter out invalid entities
 
           this.entityCache.set(cacheKey, successfulResults);
           culturalEntities.push(
@@ -1226,7 +1241,7 @@ class EnhancedQlooClient {
 
     try {
       const promises = demographics.map(async (demographic) => {
-        const cacheKey = `demo_${demographic}_${entities.map((e) => e.entity_id).join(",")}`;
+        const cacheKey = `demo_${demographic}_${entities.map((e) => e.entity_id || 'unknown').join(",")}`;
         const cached = this.demographicCache.get(cacheKey);
 
         if (cached) {
@@ -1252,9 +1267,9 @@ class EnhancedQlooClient {
           const { demographic, response } = result.value;
           analyses.push({
             demographic,
-            entities: response.results.entities.map((e) =>
-              this.sanitizeOutput(e),
-            ),
+            entities: response.results.entities
+              .filter((e) => e && typeof e === 'object' && e.name) // Filter out invalid entities
+              .map((e) => this.sanitizeOutput(e)),
             confidence: 0.8, // Base confidence for demographic analysis
             culturalRelevance: response.results.entities.length > 0 ? 0.7 : 0.3,
           });
